@@ -22,6 +22,7 @@ def on_button_click(value):
     elif value=="=":
         try:
             result = eval(current) # eval() function is built in function that evaluate all current value
+            entry_var.set(result)
         except ValueError as e:
             entry_var.set(e)
     else:
