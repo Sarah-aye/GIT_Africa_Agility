@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Food Bank Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome {{ foodbank.full_name }}</h2>
+<p><strong>Address:</strong> {{ foodbank.address }}</p>
+<p><strong>Products Needed:</strong> {{ foodbank.product_type }}</p>
+<a href="{% url 'create_or_update_FoodBank_profile' %}" class="btn btn-secondary mt-3">Edit Profile</a>
+{% endblock %}

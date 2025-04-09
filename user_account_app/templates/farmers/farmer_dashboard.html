@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Welcome, {{ farmer.farm_name }}!</h2>
+
+<div>
+  <h3>Farmer Details</h3>
+  <p><strong>Location:</strong> {{ farmer.location }}</p>
+  <p><strong>Email:</strong> {{ farmer.email }}</p>
+  <p><strong>Contact:</strong> {{ farmer.contact }}</p>
+  <p><strong>Storage Available:</strong> {{ farmer.has_storage|yesno:"Yes,No" }}</p>
+  <p><strong>Available for Donation:</strong> {{ farmer.available_for_donation|yesno:"Yes,No" }}</p>
+</div>
+
+<hr>
+
+<div>
+  <h3>Your Products</h3>
+  {% if products %}
+    <ul>
+      {% for product in products %}
+        <li>
+          <strong>{{ product.name }}</strong> ({{ product.product_type }}) - {{ product.quantity }} units at ₦{{ product.price }}
+          {% if not product.is_available %}<em>(Not Available)</em>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have not added any products yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

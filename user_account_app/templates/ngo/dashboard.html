@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}NGO Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome {{ ngo.full_name }}</h2>
+<p><strong>About Us:</strong> {{ ngo.about_us }}</p>
+<p><strong>Service Area:</strong> {{ ngo.service_area }}</p>
+<a href="{% url 'create_or_update_NGO_profile' %}" class="btn btn-secondary mt-3">Edit Profile</a>
+{% endblock %}

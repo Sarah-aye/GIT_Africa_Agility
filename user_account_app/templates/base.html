@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Farmfood_Hub</title>
+        <style>
+            h2 { color: #2c3e50; }
+            form { max-width: 600px; margin: auto; }
+            fieldset { border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Welcome to Farmfood_Hub</h1>
+            <nav>
+                {% if user.is_authenticated %}
+                    <!-- Dynamic link to the correct dashboard -->
+                    {% if user.role == 'farmer' %}
+                        <a href="{% url 'farmer_dashboard' %}">Dashboard</a>
+                    {% elif user.role == 'community_kitchen' %}
+                        <a href="{% url 'community_kitchen_dashboard' %}">Dashboard</a>
+                    {% elif user.role == 'ngo' %}
+                        <a href="{% url 'ngo_dashboard' %}">Dashboard</a>
+                    {% elif user.role == 'foodbank' %}
+                    
+                        <a href="{% url 'foodbank_dashboard' %}">Dashboard</a>
+                    
+                    {% else %}
+                        <a href="{% url 'register' %}">Register</a>
+                    {% endif %}
+                {% endif %}
+            </nav>
+            <hr>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </body>
+</html>

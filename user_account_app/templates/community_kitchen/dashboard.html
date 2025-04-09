@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Community Kitchen Dashboard{% endblock %}
+
+{% block content %}
+<h2>Welcome {{ kitchen.full_name }}</h2>
+<p><strong>Service Area:</strong> {{ kitchen.service_area }}</p>
+<p><strong>Operating Hours:</strong> {{ kitchen.get_operating_hours_display }}</p>
+<p><strong>Products:</strong> {{ kitchen.product_type }}</p>
+<p><strong>Order Frequency:</strong> {{ kitchen.get_order_frequency_display }}</p>
+{% if kitchen.certification %}
+    <p><a href="{{ kitchen.certification.url }}">View Certification</a></p>
+{% endif %}
+<a href="{% url 'create_or_update_community_kitchen_profile' %}" class="btn btn-sm btn-secondary mt-3">Edit Profile</a>
+{% endblock %}

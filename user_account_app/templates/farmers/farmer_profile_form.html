@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if is_editing %}Edit{% else %}Create{% endif %} Farmer Profile</h2>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <fieldset>
+    <legend>Farmer Info</legend>
+    {{ form.as_p }}
+  </fieldset>
+
+  <fieldset>
+    <legend>Products</legend>
+    {{ formset.management_form }}
+    {% for product_form in formset %}
+      <div class="product-form">
+        {{ product_form.as_p }}
+        {% if product_form.instance.pk %}
+          <label>Delete:</label> {{ product_form.DELETE }}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </fieldset>
+
+  <button type="submit">Save</button>
+</form>
+
+{% endblock %}
