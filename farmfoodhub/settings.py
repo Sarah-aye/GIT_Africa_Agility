@@ -148,7 +148,10 @@ EMAIL_HOST_PASSWORD = 'adrb!0021$$'
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = ['farmfoodhub.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['farmfoodhub-backend.onrender.com',
+                  'localhost', 
+                  '127.0.0.1',
+                  ]
 
 
 CORS_ALLOW_ALL_ORIGINS = True # must be changed later to the frontend url
