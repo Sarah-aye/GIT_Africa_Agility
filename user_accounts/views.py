@@ -21,6 +21,7 @@ User = get_user_model()
 
 class RegisterView(APIView):
     def post(self, request):
+        print("📥 Incoming request data:", request.data)
         serializer = serializers.RegisterSerializer(data=request.data)
 
         if serializer.is_valid():
