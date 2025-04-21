@@ -11,6 +11,7 @@ from . import serializers
 
 from django.contrib.auth import get_user_model
 from .utils import send_password_reset_email
+from django.db import IntegrityError
 
 
 User = get_user_model()
@@ -21,10 +22,19 @@ User = get_user_model()
 class RegisterView(APIView):
     def post(self, request):
         serializer = serializers.RegisterSerializer(data=request.data)
+
         if serializer.is_valid():
-            user = serializer.save()
-            return Response({"message":"user registered successfully"}),
-        return Response(serializer.errors, status=400)
+            try:
+                # If the serializer is valid, save the user
+                user = serializer.save()
+                return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
+
+            except IntegrityError:
+                return Response({"error": "Username or email already exists"}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
 # APIView for the login serializer
