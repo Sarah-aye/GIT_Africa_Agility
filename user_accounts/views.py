@@ -32,6 +32,7 @@ class RegisterView(APIView):
             except IntegrityError:
                 return Response({"error": "Username or email already exists"}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
+                print(f"Unexpected error during registration: {e}")  # Add this
                 return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
