@@ -24,17 +24,30 @@ class RegisterView(APIView):
         print("📥 RegisterView hit")
         serializer = serializers.RegisterSerializer(data=request.data)
 
+        print("🧪 Serializer created")
+
         if serializer.is_valid():
+
+            print("✅ Serializer is valid")
+
             try:
                 # If the serializer is valid, save the user
                 user = serializer.save()
+
+                print("🙌 User saved")
+
                 return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
 
             except IntegrityError:
+
+                print("⚠️ Integrity error")
+
                 return Response({"error": "Username or email already exists"}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
                 print(f"Unexpected error during registration: {e}")  # Add this
                 return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+        print("❌ Serializer is invalid:", serializer.errors)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
