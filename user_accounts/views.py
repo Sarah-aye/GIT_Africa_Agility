@@ -13,6 +13,8 @@ from django.contrib.auth import get_user_model
 from .utils import send_password_reset_email
 from django.db import IntegrityError
 
+from rest_framework.utils.serializer_helpers import ReturnDict
+
 
 User = get_user_model()
 
@@ -46,6 +48,10 @@ class RegisterView(APIView):
             except Exception as e:
                 print(f"Unexpected error during registration: {e}")  # Add this
                 return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        errors = serializer.errors
+        if isinstance(errors, ReturnDict):
+            errors = dict(errors)  # Ensure JSON-safe
             
         print("❌ Serializer is invalid:", serializer.errors)
 
