@@ -62,17 +62,24 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     def post(self, request):
+
+        print("📩 Login request received")
+
         serializer = serializers.LoginSerializer(data=request.data)
+        
         if serializer.is_valid():
-            user = authenticate(
-                email=serializer.validated_data['email'],
-                password=serializer.validated_data['password']
-            )
-            if user:
-                token, create = Token.objects.get_or_create(user=user)
-                return Response({"token": token.key})
-            return Response({"error": "Invalid credentials"}, status=400)
-        return Response(serializer.errors, status=400)
+
+            print("✅ Serializer is valid")
+
+            user = serializer.validated_data['user']  # 👈 already authenticated
+
+            print("🔐 Authenticated user:", user)
+
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key}, status=status.HTTP_200_OK)
+
+        print("❌ Invalid data:", serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 #APIView for password reset serializer
