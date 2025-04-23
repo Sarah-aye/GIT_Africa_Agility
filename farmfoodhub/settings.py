@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'user_accounts', # the app
     'django_countries', # installed
     'rest_framework', # installed DRF
+    'rest_framework.authtoken', # apparently i must have this registered here
     'corsheaders', # installed app
 ]
 
