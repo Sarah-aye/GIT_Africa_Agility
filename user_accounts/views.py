@@ -75,7 +75,8 @@ class LoginView(APIView):
                 user = serializer.validated_data['user']
                 print("🔐 Authenticated user:", user)
 
-                token, _ = Token.objects.get_or_create(user=user)
+                token, created = Token.objects.get_or_create(user=user)
+                print(f"🔑 Token: {token.key} | Created: {created}")
                 return Response({"token": token.key}, status=status.HTTP_200_OK)
 
             print("❌ Invalid data:", serializer.errors)
