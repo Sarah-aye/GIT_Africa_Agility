@@ -155,3 +155,9 @@ ALLOWED_HOSTS = ['farmfoodhub-backend.onrender.com',
 
 
 CORS_ALLOW_ALL_ORIGINS = True # must be changed later to the frontend url
+
+
+AUTHENTICATION_BACKENDS = [
+    'farmfoodhub.authentication.EmailBackend',  # Adjust path
+    'django.contrib.auth.backends.ModelBackend',  # Keep default too
+]
