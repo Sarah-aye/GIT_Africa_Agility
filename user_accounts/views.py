@@ -66,20 +66,27 @@ class LoginView(APIView):
         print("📩 Login request received")
 
         serializer = serializers.LoginSerializer(data=request.data)
-        
-        if serializer.is_valid():
 
-            print("✅ Serializer is valid")
+        try:
+            print("🧪 Calling is_valid()")
+            if serializer.is_valid():
+                print("✅ Serializer is valid")
 
-            user = serializer.validated_data['user']  # 👈 already authenticated
+                user = serializer.validated_data['user']
+                print("🔐 Authenticated user:", user)
 
-            print("🔐 Authenticated user:", user)
+                token, _ = Token.objects.get_or_create(user=user)
+                return Response({"token": token.key}, status=status.HTTP_200_OK)
 
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key}, status=status.HTTP_200_OK)
+            print("❌ Invalid data:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        print("❌ Invalid data:", serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(f"🔥 Exception during login: {e}")
+            return Response(
+                {"error": "Internal server error", "details": str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 #APIView for password reset serializer
