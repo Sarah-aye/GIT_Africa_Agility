@@ -81,9 +81,7 @@ class LoginView(APIView):
                 print(f"🔑 Token: {token.key} | Created: {created}")
 
                 return Response({"token": token.key,
-                                 "user": {
-                                     "role": user.role
-                                 }
+                                 "role": user.role
                                  }, 
                                 
                                 status=status.HTTP_200_OK)
