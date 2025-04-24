@@ -79,7 +79,14 @@ class LoginView(APIView):
 
                 token, created = Token.objects.get_or_create(user=user)
                 print(f"🔑 Token: {token.key} | Created: {created}")
-                return Response({"token": token.key}, status=status.HTTP_200_OK)
+
+                return Response({"token": token.key,
+                                 "user": {
+                                     "role": user.role
+                                 }
+                                 }, 
+                                
+                                status=status.HTTP_200_OK)
 
             print("❌ Invalid data:", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
